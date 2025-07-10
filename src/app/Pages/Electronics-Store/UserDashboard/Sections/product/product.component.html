@@ -1,0 +1,76 @@
+<div class="container">
+  <form (submit)="isEditMode ? updateProduct() : saveProduct(); $event.preventDefault()">
+    <input type="text" [(ngModel)]="product.name" name="name" placeholder="Name" required />
+    <input type="number" [(ngModel)]="product.price" name="price" placeholder="Price" />
+    <select [(ngModel)]="product.category" name="category">
+    <option value="" disabled selected>Select category</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Grocery">Grocery</option>
+    <option value="Hardware">Hardware</option>
+ 
+  </select>
+    <input type="number" [(ngModel)]="product.quantity" name="quantity" placeholder="Quantity" />
+    <textarea [(ngModel)]="product.description" name="description" placeholder="Description"></textarea>
+    <select [(ngModel)]="product.gstType" name="gstType">
+      <option value="" disabled selected>Select GST Type</option>
+      <option value="IGST">IGST</option>
+      <option value="CGST">CGST</option>
+      <option value="SGST">SGST</option>
+      <option value="UTGST">UTGST</option>
+    </select>
+    
+    <select [(ngModel)]="product.gstRate" name="gstRate">
+      <option value="" disabled selected>Select GST Rate</option>
+      <option value="0">0%</option>
+      <option value="5">5%</option>
+      <option value="12">12%</option>
+      <option value="18">18%</option>
+      <option value="28">28%</option>
+    </select>
+    
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" [required]="!isEditMode" />
+    
+    <button type="submit">{{ isEditMode ? 'Update Product' : 'Add Product' }}</button>
+    <button *ngIf="isEditMode" type="button" (click)="cancelEdit()">Cancel</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sr.No</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Stock</th>
+        <th>Price</th>
+        <th>GST Type</th>
+        <th>GST Rate</th>
+        <th>Actions</th>
+        <th>Product ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of filteredProducts; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><img [src]="getImageUrl(product.product_id)" class="product-image" alt="Product image" /></td>
+        <td>{{ product.productName }}</td>
+        <td>{{ product.product_description }}</td>
+        <td>{{ product.product_category }}</td>
+        <td>{{ product.product_available_stock_quantity }}</td>
+        <td>{{ product.product_price }}</td>
+        <td>{{ product.gst_type }}</td>
+        <td>{{ product.gst_rate }}</td>
+        <td>
+          <button (click)="editProduct(product)">
+            <img src="../../../../../assets/logos/edit-black.png" width="20px" alt="edit" />
+          </button>
+          <button (click)="deleteProduct(product.product_id)">
+            <img src="../../../../../assets/logos/delete-black.png" width="20px" />
+          </button>
+        </td>
+        <td>{{ product.product_id }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,83 @@
+<div class="parent-container">
+  <div class="container">
+    <h2>Product Management</h2>
+
+    <!-- Product Form -->
+    <form (submit)="isEditing ? updateProduct() : addProduct()">
+      <input
+        type="text"
+        [(ngModel)]="newProduct.product_name"
+        name="product_name"
+        placeholder="Product Name"
+        required
+      />
+      <input
+        type="number"
+        [(ngModel)]="newProduct.product_price"
+        name="product_price"
+        placeholder="Price"
+        required
+      />
+      <input
+        type="number"
+        [(ngModel)]="newProduct.stock_quantity"
+        name="stock_quantity"
+        placeholder="Stock Quantity"
+        required
+        />
+        <input
+        type="text"
+        [(ngModel)]="newProduct.product_category"
+        name = "product_category"
+        placeholder="Product Category"
+        required
+      />
+      <input
+        type="text"
+        [(ngModel)]="newProduct.product_description"
+        name="product_description"
+        placeholder="Description"
+      />
+
+      <select [(ngModel)]="newProduct.product_gstType">
+        <option [value]="CGST + '+' + SGST">CGST+SGST</option>
+        <option [value]="IGST">IGST</option>
+        <option [value]="CGST + '+' + UTGST">CGST+UTGST</option>
+      </select>
+
+      <select [(ngModel)]="newProduct.product_gstRate">
+        <option [value]="5">5%</option>
+        <option [value]="18">18%</option>
+        <option [value]="28">28%</option>
+      </select>
+      <!-- <input
+      type="file"
+      name="produtc_img"
+    /> -->
+      <button type="submit">{{ isEditing ? "Update" : "Add" }} Product</button>
+    </form>
+
+    <!-- Product Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products;let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ product.product_name }}</td>
+          <td>{{ product.product_price }}</td>
+          <td>
+            <button (click)="editProduct(product)">Edit</button>
+            <button (click)="deleteProduct(product.product_id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="page-wrapper">
+
+    <!-- 🔍 Search bar + Filter dropdown -->
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search sellers..."
+        [(ngModel)]="searchTerm"
+      />
+  
+      <select [(ngModel)]="searchField">
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+        <option value="id">ID</option>
+        <option value="grossSale">Gross Sale</option>
+        <option value="earning">Earning</option>
+      </select>
+    </div>
+  
+    <!-- Seller form -->
+    <div class="seller-form">
+      <input
+        type="text"
+        placeholder="Name of Shop"
+        [(ngModel)]="newSeller.name"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Seller ID"
+        [(ngModel)]="newSeller.id"
+        required
+      />
+      <input
+        type="email"
+        placeholder="Email ID"
+        [(ngModel)]="newSeller.email"
+        required
+        email
+      />
+      <input
+        type="number"
+        placeholder="Gross Sale"
+        [(ngModel)]="newSeller.grossSale"
+        min="0"
+        required
+      />
+      <input
+        type="number"
+        placeholder="Earning"
+        [(ngModel)]="newSeller.earning"
+        min="0"
+        required
+      />
+      
+      <div class="file-upload">
+        <input
+          type="file"
+          id="fileInput"
+          (change)="handleFileInput($event)"
+          hidden
+        />
+        <label for="fileInput" class="custom-file-label">
+          Choose Image
+        </label>
+      </div>
+      
+
+
+      <button
+        (click)="addSeller()"
+        [disabled]="!newSeller.name || !newSeller.id || !newSeller.email"
+      >
+        {{ editingIndex !== null ? 'Update' : 'Save' }}
+      </button>
+    </div>
+  
+    <!-- Seller display -->
+    <div class="seller-display">
+      <div *ngIf="filteredSellers.length === 0">No sellers found matching your search.</div>
+  
+      <div class="seller-card" *ngFor="let seller of filteredSellers; let i = index">
+        <img [src]="seller.icon || 'https://via.placeholder.com/100'" alt="Seller Icon" />
+        <h3>{{ seller.name }}</h3>
+        <p><strong>ID:</strong> {{ seller.id }}</p>
+        <p><strong>Email:</strong> {{ seller.email }}</p>
+        <p><strong>Gross Sale:</strong> ${{ seller.grossSale }}</p>
+        <p><strong>Earning:</strong> ${{ seller.earning }}</p>
+        <button (click)="editSeller(i)">Edit</button>
+        <button (click)="deleteSeller(i)">Delete</button>
+      </div>
+    </div>
+  
+  </div>

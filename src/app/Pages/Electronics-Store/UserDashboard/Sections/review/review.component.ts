@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { Review } from '../../../../../model/review/review';
+import { ReviewService } from '../../../../../Services/reviewService/review.service';
 
 @Component({
   selector: 'app-review',
@@ -16,12 +18,20 @@ export class ReviewComponent implements OnInit {
   suggestionText: string = '';
   rating: number = 0;
   displayPicture: string | null = null;
-  reviews: any[] = [];
   emojis: string[] = ['😞', '😐', '😊', '😄', '😍'];
   showReviews: boolean = false;
   private genAI: GoogleGenerativeAI;
 
-  constructor() {
+  reviews: any[] = [];
+
+  addReviews: Review ={
+    id: 0,
+    reviewerName: '',
+    comment: '',
+    rating: ''
+  };
+
+  constructor(private reviewService: ReviewService) {
     // Initialize Gemini API with your API key
     this.genAI = new GoogleGenerativeAI('AIzaSyBYGqAev81pI_5A1Ut1K27ssljqjCcvY9U');
   }
@@ -76,14 +86,16 @@ export class ReviewComponent implements OnInit {
   }
 
   submitReview(): void {
-    if (this.name && this.reviewText && this.rating > 0) {
+    if (this.addReviews.reviewerName && this.addReviews.comment && this.addReviews.rating) {
       const newReview = {
         name: this.name,
         reviewText: this.reviewText,
         rating: this.rating,
-        displayPicture: this.displayPicture || 'assets/placeholder.jpg',
-        date: new Date().toISOString()
+       
       };
+
+
+      
 
       this.reviews.unshift(newReview);
       localStorage.setItem('reviews', JSON.stringify(this.reviews));

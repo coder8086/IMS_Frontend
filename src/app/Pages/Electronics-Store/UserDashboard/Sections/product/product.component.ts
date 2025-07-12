@@ -1,15 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { ProductService } from '../../../../../Services/productServices/product-service.service';
-import { isNullOrUndef } from 'chart.js/dist/helpers/helpers.core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',

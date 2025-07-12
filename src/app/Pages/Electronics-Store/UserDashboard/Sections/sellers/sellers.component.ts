@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Seller } from '../../../../../model/seller/seller';
+import { SellerService } from '../../../../../Services/Sellers/seller.service';
 
 @Component({
   selector: 'app-sellers',
@@ -10,7 +11,7 @@ import { Seller } from '../../../../../model/seller/seller';
   templateUrl: './sellers.component.html',
   styleUrl: './sellers.component.css'
 })
-export class SellersComponent {
+export class SellersComponent implements OnInit{
   
   sellers: Seller[] = [];
 
@@ -26,6 +27,27 @@ export class SellersComponent {
   searchTerm: string = '';
   searchField: string = 'name'; // Default filter is name
   editingIndex: number | null = null;
+
+
+  constructor(private sellerService: SellerService){
+
+  }
+
+  ngOnInit(): void {
+    this.fetchSeller();
+      
+  }
+
+  fetchSeller(){
+    this.sellerService.getSellers().subscribe({
+      next: (resp: any) => {
+        this.sellers = resp;
+      },
+      error: (er) => {
+        console.log("Error while getting seller ",er);
+      }
+    });
+  }
 
   get filteredSellers() {
     if (!this.searchTerm.trim()) {
@@ -48,18 +70,22 @@ export class SellersComponent {
     });
   }
 
-  addSeller() {
-    if (this.newSeller.name && this.newSeller.id && this.newSeller.email) {
-
-      
-
+  addSeller(): void {
+    if (this.newSeller.name && this.newSeller.email && this.newSeller.earning) {
+      this.sellerService.addSeller(this.newSeller).subscribe({
+        next: (resp:any) => {
+          alert(resp.message);
+          console.log("New seller added")
+        },
+        error: (er) => {
+          console.log("Error while adding seller", er);
+        }
+      });
     }
     else {
       alert('Please fill in all required fields.');
-      return;
+   
     }
-     
-
   }
 
   editSeller(index: number) {

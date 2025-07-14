@@ -28,7 +28,7 @@ export class ReviewService {
   }
 
   getreviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseUrl}//my-reviews`, { 
+    return this.http.get<Review[]>(`${this.baseUrl}/my-reviews`, { 
       headers: this.getAuthHeaders()
     });
   }

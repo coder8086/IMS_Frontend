@@ -1,21 +1,8 @@
-.product-navbar{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #FFF;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  position: fixed;
-  top:80px;
-  right: 55px;
-  z-index: 1;
-  width: 70%;
-}
 .container {
   width: 70%;
   position: absolute;
   left: 25%;
-  top: 140px;
+  top: 100px;
   margin: 20px auto;
   padding: 20px;
   background: #fff;
@@ -25,6 +12,25 @@
 h2 {
   text-align: center;
   color: #333;
+}
+#add-btn{
+  position: fixed;
+  z-index: 5;
+  box-shadow: 0 0 0 10px 10px #666;
+
+  top: 150px;
+  background-color: #00e5ff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 0 10px;
+  font-weight: 500;
+  color: #FFF;
+  height: 2.5em;
+  cursor: pointer;
+}
+#add-btn:hover{
+  background-color: #00b8cc;
 }
 input {
   padding: 10px;
@@ -49,7 +55,7 @@ textarea {
 textarea::placeholder {
   text-align: left;
 }
-button {
+td button {
   margin: 5px;
   padding: 3px;
   background: transparent;
@@ -130,4 +136,10 @@ form button:hover {
 #search-product {
   /* float: right; */
   width: 25em;
+}
+.no-data-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 18px;
+  color: #666;
 }

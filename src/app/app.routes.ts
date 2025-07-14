@@ -12,7 +12,6 @@ import { SubscriptionComponent } from './Pages/Authentication/subscriptions/subs
 import { CentralLandingComponent } from './Pages/CentralLanding/central-landing/central-landing.component';
 
 export const routes: Routes = [
-
   {
     path: '',
     pathMatch: 'full',
@@ -23,7 +22,8 @@ export const routes: Routes = [
     },
   },
   {
-    path:'landing',component:LandingFooterComponent
+    path: 'landing',
+    component: LandingFooterComponent,
   },
 
   // <--------------------- User Auth Routes --------------------->
@@ -36,8 +36,10 @@ export const routes: Routes = [
         (m) => m.SignUpComponent
       );
     },
-  },{
-    path:'verifyEmail', component:OtpComponent
+  },
+  {
+    path: 'verifyEmail',
+    component: OtpComponent,
   },
   {
     path: 'login',
@@ -50,7 +52,7 @@ export const routes: Routes = [
   },
   // <--------------------- Profile Routee --------------------->
 
-  {path:'userProfile', component:UserProfileComponent},
+  { path: 'userProfile', component: UserProfileComponent },
 
   // <--------------------- Admin Routes --------------------->
 
@@ -122,7 +124,8 @@ export const routes: Routes = [
       ).then((m) => m.ProductComponent);
     },
     outlet: 'outlet2',
-  },{
+  },
+  {
     path: 'electronics-user-dashboard-review',
     pathMatch: 'full',
     loadComponent: () => {
@@ -141,7 +144,8 @@ export const routes: Routes = [
       ).then((m) => m.AutomateBillingComponent);
     },
     outlet: 'outlet2',
-  },{
+  },
+  {
     path: 'electronics-user-dashboard-manual-billing',
     pathMatch: 'full',
     loadComponent: () => {
@@ -173,11 +177,8 @@ export const routes: Routes = [
   },
   // <--------------------- Grocery Store Routes --------------------->
 
-
   // <--------------------- Industrial Store Routes --------------------->
 
-
-  
   // <--------------------- Grocery Store Dashboard Routes --------------------->
  
 
@@ -189,13 +190,6 @@ export const routes: Routes = [
  {
   path: 'sellers', component:SellersComponent, outlet: 'outlet2'
   // This route is for the Sellers section in the Electronics Store User Dashboard
- },
- {
-  path: 'subscription', component: SubscriptionComponent
- },
- {
-  path: 'central-landing', component: CentralLandingComponent
  }
 
 ];
-

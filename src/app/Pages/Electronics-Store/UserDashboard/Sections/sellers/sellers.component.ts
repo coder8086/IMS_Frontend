@@ -20,6 +20,17 @@ throw new Error('Method not implemented.');
 }
 openAddSellerModal() {
 
+   this.newSeller = {
+      name: '',
+      id: '',
+      email: '',
+      grossSale: null,
+      earning: null,
+      icon: ''
+    };
+    this.editingIndex = null;
+    this.showModal = true;
+
 }
 
     sellers: Seller[] = [];

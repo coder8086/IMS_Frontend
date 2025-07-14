@@ -190,6 +190,10 @@ export const routes: Routes = [
  {
   path: 'sellers', component:SellersComponent, outlet: 'outlet2'
   // This route is for the Sellers section in the Electronics Store User Dashboard
+ },{
+  path:'subscription', component: SubscriptionComponent
+ },
+ {
+  path:'central-landing', component: CentralLandingComponent
  }
-
 ];

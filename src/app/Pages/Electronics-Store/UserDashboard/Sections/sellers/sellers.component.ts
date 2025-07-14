@@ -13,6 +13,12 @@
     styleUrl: './sellers.component.css'
   })
   export class SellersComponent implements OnInit {
+handleSave($event: any) {
+throw new Error('Method not implemented.');
+}
+openAddSellerModal() {
+throw new Error('Method not implemented.');
+}
 
     sellers: Seller[] = [];
     searchTerm: string = '';
@@ -108,4 +114,4 @@
       reader.readAsDataURL(file);
     }
   }
-}
+

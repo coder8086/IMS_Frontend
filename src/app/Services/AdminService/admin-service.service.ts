@@ -22,7 +22,7 @@ export class AdminService {
 
   // Get all users
   getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users`, {
+    return this.http.get<any[]>(`${this.apiUrl}/admin/users`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -38,7 +38,7 @@ export class AdminService {
 
   // Reject user (set status to REJECTED)
   rejectUser(id: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/reject/${id}`, null, {
+    return this.http.put(`${this.apiUrl}/admin/reject/${id}`, null, {
       headers: this.getAuthHeaders(),
     });
   }

@@ -8,6 +8,8 @@ import { LandingFooterComponent } from './Components/footer/landing-footer/landi
 import { OtpComponent } from './Pages/Authentication/otp/otp.component';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 import { SellersComponent } from './Pages/Electronics-Store/UserDashboard/Sections/sellers/sellers.component';
+import { SubscriptionComponent } from './Pages/Authentication/subscriptions/subscription/subscription.component';
+import { CentralLandingComponent } from './Pages/CentralLanding/central-landing/central-landing.component';
 
 export const routes: Routes = [
 
@@ -187,6 +189,12 @@ export const routes: Routes = [
  {
   path: 'sellers', component:SellersComponent, outlet: 'outlet2'
   // This route is for the Sellers section in the Electronics Store User Dashboard
+ },
+ {
+  path: 'subscription', component: SubscriptionComponent
+ },
+ {
+  path: 'central-landing', component: CentralLandingComponent
  }
 
 ];

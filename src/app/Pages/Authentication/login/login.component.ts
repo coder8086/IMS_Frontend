@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AuthRequest } from '../../../Services/AuthenticationService/authentication.service';
-import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import {  FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -32,15 +33,34 @@ export class LoginComponent {
           alert('Login Successful!');
 
           // Save token to localStorage (or sessionStorage)
-          localStorage.setItem('token', res);
+          localStorage.setItem("token",res);
 
 
           // Navigate to home/dashboard
-          this.router.navigate(['/electronics-store-home']);
+          this.router.navigate(['/central-landing']);
         },
-        error: (error) => {
-          console.error('Login failed:', error);
-          alert('Invalid credentials, please try again.');
+        error: (error: HttpErrorResponse) => {
+        
+          if (error.status === 401) {
+            alert('Invalid username or password. Please try again.');
+          } 
+          else if (error.status === 500) {
+            alert('Server error. Please try again later.');
+          }
+          else if (error.status === 0) {
+            alert('Network error. Please check your internet connection.');
+          }
+          else if (error.status === 403) {
+            alert('Access denied. You do not have permission to access this resource.');
+          }
+          else if (error.status === 406) {
+            this.router.navigate(['/subscription']);
+          }
+          
+          else {
+            alert('An error occurred during login. Please try again later.');
+          }
+          
         }
       });
     } else {

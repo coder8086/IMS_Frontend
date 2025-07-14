@@ -1,6 +1,6 @@
 export class Review {
-    id!:0;
-    reviewerName!:'';
-    comment!:'';
-    rating!:'';
+    id!:number;
+    reviewerName!:string;
+    comment!:string;
+    rating!:number;
 }

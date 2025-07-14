@@ -42,6 +42,7 @@ export class SellersComponent implements OnInit{
     this.sellerService.getSellers().subscribe({
       next: (resp: any) => {
         this.sellers = resp;
+        
       },
       error: (er) => {
         console.log("Error while getting seller ",er);
@@ -75,7 +76,9 @@ export class SellersComponent implements OnInit{
       this.sellerService.addSeller(this.newSeller).subscribe({
         next: (resp:any) => {
           alert(resp.message);
-          console.log("New seller added")
+          console.log("New seller added");
+          this.fetchSeller();
+          this.clearForm();
         },
         error: (er) => {
           console.log("Error while adding seller", er);
@@ -112,5 +115,17 @@ export class SellersComponent implements OnInit{
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  clearForm() {
+    this.newSeller = {
+      name: '',
+      id: '',
+      email: '',
+      grossSale: null,
+      earning: null,
+      icon: ''
+    };
+    this.editingIndex = null;
   }
 }

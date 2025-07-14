@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserData } from '../../model/User-Data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:8080/api/admin';
+  private apiUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}
 
-  // Helper method to get JWT token from local storage
+  // Helper to build headers with token
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // Make sure your token is stored here
+    const token = localStorage.getItem('token');
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
   }
 
@@ -39,5 +41,9 @@ export class AdminService {
     return this.http.put(`${this.apiUrl}/reject/${id}`, null, {
       headers: this.getAuthHeaders(),
     });
+  }
+
+   getUserById(): Observable<UserData> {
+    return this.http.get<UserData>(`${this.apiUrl}/getUserById`, {headers: this.getAuthHeaders()});
   }
 }

@@ -1,47 +1,42 @@
-  import { Component, OnInit } from '@angular/core';
-  import { FormsModule } from '@angular/forms';
-  import { CommonModule } from '@angular/common';
-  import { Seller } from '../../../../../model/seller/seller';
-  import { SellerService } from '../../../../../Services/Sellers/seller.service';
-  import { SellerVendorModalComponent } from '../../../../../Components/Modal/seller-vendor-modal/seller-vendor-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Seller } from '../../../../../model/seller/seller';
+import { SellerService } from '../../../../../Services/Sellers/seller.service';
 
-  @Component({
-    selector: 'app-sellers',
-    standalone: true,
-    imports: [FormsModule, CommonModule, SellerVendorModalComponent],
-    templateUrl: './sellers.component.html',
-    styleUrl: './sellers.component.css'
-  })
-  export class SellersComponent implements OnInit {
+@Component({
+  selector: 'app-sellers',
+  standalone: true,
+  imports: [FormsModule,CommonModule],
+  templateUrl: './sellers.component.html',
+  styleUrl: './sellers.component.css'
+})
+export class SellersComponent implements OnInit{
+  
+  sellers: Seller[] = [];
+
+  newSeller: Seller = {
+    name: '',
+    id: '',
+    email: '',
+    grossSale: null,
+    earning: null,
+    icon: ''
+  };
+
+  searchTerm: string = '';
+  searchField: string = 'name'; // Default filter is name
+  editingIndex: number | null = null;
 
 
-handleSave($event: any) {
-throw new Error('Method not implemented.');
-}
-openAddSellerModal() {
+  constructor(private sellerService: SellerService){
 
-}
+  }
 
-    sellers: Seller[] = [];
-    searchTerm: string = '';
-    searchField: string = 'name'; // Default filter
-    editingIndex: number | null = null;
-    showModal: boolean = false;
-
-    newSeller: Seller = {
-      name: '',
-      id: '',
-      email: '',
-      grossSale: null,
-      earning: null,
-      icon: ''
-    };
-
-    constructor(private sellerService: SellerService) {}
-
-    ngOnInit(): void {
-      this.fetchSeller();
-    }
+  ngOnInit(): void {
+    this.fetchSeller();
+      
+  }
 
   fetchSeller(){
     this.sellerService.getSellers().subscribe({
@@ -54,22 +49,26 @@ openAddSellerModal() {
     });
   }
 
-    get filteredSellers() {
-      if (!this.searchTerm.trim()) return this.sellers;
-
-      return this.sellers.filter((seller) => {
-        const value = seller[this.searchField as keyof Seller];
-
-        if (typeof value === 'number') {
-          return value.toString().includes(this.searchTerm);
-        }
-        if (typeof value === 'string') {
-          return value.toLowerCase().includes(this.searchTerm.toLowerCase());
-        }
-
-        return false;
-      });
+  get filteredSellers() {
+    if (!this.searchTerm.trim()) {
+      return this.sellers;
     }
+
+    return this.sellers.filter((seller) => {
+      const field = this.searchField;
+      const value = seller[field as keyof Seller];
+
+      if (typeof value === 'number') {
+        return value.toString().includes(this.searchTerm);
+      }
+
+      if (typeof value === 'string') {
+        return value.toLowerCase().includes(this.searchTerm.toLowerCase());
+      }
+
+      return false;
+    });
+  }
 
   addSeller(): void {
     if (this.newSeller.name && this.newSeller.email && this.newSeller.earning) {
@@ -96,19 +95,17 @@ openAddSellerModal() {
     this.editingIndex = realIndex;
   }
 
-    deleteSeller(index: number): void {
-      const seller = this.filteredSellers[index];
-      const realIndex = this.sellers.indexOf(seller);
-      if (confirm('Are you sure you want to delete this seller?')) {
-        this.sellers.splice(realIndex, 1);
-      }
+  deleteSeller(index: number) {
+    const seller = this.filteredSellers[index];
+    const realIndex = this.sellers.indexOf(seller);
+    if (confirm('Are you sure you want to delete this seller?')) {
+      this.sellers.splice(realIndex, 1);
     }
+  }
 
-    closeModal(): void {
-      this.showModal = false;
-    }
-
-    handleFileInput(file: File): void {
+  handleFileInput(event: any) {
+    const file = event.target.files[0];
+    if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         this.newSeller.icon = reader.result as string;
@@ -116,4 +113,4 @@ openAddSellerModal() {
       reader.readAsDataURL(file);
     }
   }
-
+}

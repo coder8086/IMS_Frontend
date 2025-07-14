@@ -46,15 +46,17 @@ export class AsideComponent {
         break;
 
       case 'Sellers':
-        this.router.navigate([{ outlets: { outlet2: ['sellers'] } }]);
+         this.router.navigate([
+          { outlets: { outlet2: ['sellers'] } },
+        ]);
         console.log('Navigating to Sellers / Vendors...');
         this.activeItem = item;
         break;
 
-      // case 'Customers':
-      //   console.log('Navigating to Customers...');
-      //   this.activeItem = item;
-      //   break;
+      case 'Customers':
+        console.log('Navigating to Customers...');
+        this.activeItem = item;
+        break;
 
       case 'Reviews':
         this.router.navigate([
@@ -72,26 +74,19 @@ export class AsideComponent {
     this.activeItem = 'Billing';
     switch (value) {
       case 'auto-billing':
-        this.router.navigate([
-          { outlets: { outlet2: ['electronics-user-dashboard-auto-billing'] } },
-        ]);
+        this.router.navigate([{ outlets: { outlet2: ['electronics-user-dashboard-auto-billing'] } }]);
 
         break;
 
       case 'manual-billing':
-        this.router.navigate([
-          {
-            outlets: { outlet2: ['electronics-user-dashboard-manual-billing'] },
-          },
-        ]);
-
+       this.router.navigate([
+          { outlets: { outlet2: ['electronics-user-dashboard-manual-billing'] } }]);
+       
         break;
 
       case 'show-bills':
-        this.router.navigate([
-          { outlets: { outlet2: ['electronics-user-dashboard-show-bills'] } },
-        ]);
-
+        this.router.navigate([{ outlets: { outlet2: ['electronics-user-dashboard-show-bills'] } }]);
+       
         break;
 
       default:

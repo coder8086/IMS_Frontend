@@ -1,9 +1,40 @@
 <div class="container">
-  <div class="product-header">
-  <h2>Product Management</h2>
-  <button (click)="openAddProductModal()" id="add-btn">Add Product</button>
-</div>
-  <table *ngIf="filteredProducts.length > 0; else noProducts">
+  <form (submit)="isEditMode ? updateProduct() : saveProduct(); $event.preventDefault()">
+    <input type="text" [(ngModel)]="product.name" name="name" placeholder="Name" required />
+    <input type="number" [(ngModel)]="product.price" name="price" placeholder="Price" />
+    <select [(ngModel)]="product.category" name="category">
+    <option value="" disabled selected>Select category</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Grocery">Grocery</option>
+    <option value="Hardware">Hardware</option>
+ 
+  </select>
+    <input type="number" [(ngModel)]="product.quantity" name="quantity" placeholder="Quantity" />
+    <textarea [(ngModel)]="product.description" name="description" placeholder="Description"></textarea>
+    <select [(ngModel)]="product.gstType" name="gstType">
+      <option value="" disabled selected>Select GST Type</option>
+      <option value="IGST">IGST</option>
+      <option value="CGST">CGST</option>
+      <option value="SGST">SGST</option>
+      <option value="UTGST">UTGST</option>
+    </select>
+    
+    <select [(ngModel)]="product.gstRate" name="gstRate">
+      <option value="" disabled selected>Select GST Rate</option>
+      <option value="0">0%</option>
+      <option value="5">5%</option>
+      <option value="12">12%</option>
+      <option value="18">18%</option>
+      <option value="28">28%</option>
+    </select>
+    
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" [required]="!isEditMode" />
+    
+    <button type="submit">{{ isEditMode ? 'Update Product' : 'Add Product' }}</button>
+    <button *ngIf="isEditMode" type="button" (click)="cancelEdit()">Cancel</button>
+  </form>
+
+  <table>
     <thead>
       <tr>
         <th>Sr.No</th>
@@ -42,18 +73,4 @@
       </tr>
     </tbody>
   </table>
-  <ng-template #noProducts>
-    <div class="no-data-message">
-      <p>No products found.</p>
-    </div>
-  </ng-template>
 </div>
-<app-product-modal
- [show]="isModalVisible"
- [product]="product"
- [isEditMode]="isEditMode"
- (close)="closeModal()" 
- (save)="isEditMode ? updateProduct() : saveProduct()"
-
- (fileSelected)="imageFile = $event"
-></app-product-modal>

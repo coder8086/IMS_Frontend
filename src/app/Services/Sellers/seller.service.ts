@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Seller } from '../../model/seller/seller';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,28 @@ export class SellerService {
 
   addSeller(seller:Seller) {
     return this.http.post(`${this.apiUrl}/addSeller`, seller,{headers: this.getAuthHeaders(), responseType: 'json'});
+  }
+
+  addSellerWithImage(
+    name: string,
+    email: string,
+    grossSale: number,
+    earning: number,
+    imageFile: File
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('name', name);
+    if (email) formData.append('email', email);
+    if (grossSale !== null && grossSale !== undefined) formData.append('grossSale', grossSale.toString());
+    if (earning !== null && earning !== undefined) formData.append('earning', earning.toString());
+    formData.append('image', imageFile);
+
+    const token = localStorage.getItem('token'); // or sessionStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post(`${this.apiUrl}/addSellerImg`, formData, { headers });
   }
 
   getSellers() {

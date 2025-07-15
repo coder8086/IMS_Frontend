@@ -19,7 +19,7 @@
   
     <!-- Seller form -->
     <div class="seller-form">
-      <form (submit)="addSeller()">
+      <form (submit)="addSellerWithImg()">
       <input
         type="text"
         placeholder="Name of Shop" name="name"
@@ -50,10 +50,7 @@
       />
       
       <div class="file-upload">
-         
-            <label for="fileInput" class="custom-file-label">
-              Choose Image
-            </label>
+          <input #fileInput type="file" (change)="onFileSelected($event,fileInput)">
       </div>
         <button type="submit">{{ editingIndex !== null ? 'Update' : 'Save' }}</button>
       </form>
@@ -64,9 +61,11 @@
       <div *ngIf="filteredSellers.length === 0">No sellers found matching your search.</div>
   
       <div class="seller-card" *ngFor="let seller of filteredSellers; let i = index">
-        <img [src]="seller.icon || 'https://via.placeholder.com/100'" alt="Seller Icon" />
+       
+        <img [src]="'http://localhost:8080/api/seller/serveImage/' + seller.imagePath" alt="My Image">
+
         <h3>{{ seller.name }}</h3>
-        <p><strong>ID:</strong> {{ seller.id }}</p>
+        <p><strong>ID:</strong> {{ seller.imagePath }}</p>
         <p><strong>Email:</strong> {{ seller.email }}</p>
         <p><strong>Gross Sale:</strong> ${{ seller.grossSale }}</p>
         <p><strong>Earning:</strong> ${{ seller.earning }}</p>

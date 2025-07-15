@@ -4,5 +4,5 @@ export class Seller {
   email!: string;
   grossSale!: number | null;
   earning!: number | null;
-  icon!: string;
+   imagePath!:string;
 }

@@ -15,27 +15,59 @@ export class SellersComponent implements OnInit{
   
   sellers: Seller[] = [];
 
-  newSeller: Seller = {
+   newSeller = {
     name: '',
-    id: '',
     email: '',
-    grossSale: null,
-    earning: null,
-    icon: ''
+    grossSale:0,
+    earning: 0,
+    imagePath:''
   };
+
+  inputFile: File | null = null;
+
+  selectedFile: File | null = null;
 
   searchTerm: string = '';
   searchField: string = 'name'; // Default filter is name
   editingIndex: number | null = null;
 
-
-  constructor(private sellerService: SellerService){
-
+  constructor(private sellerService: SellerService){}
+  
+  ngOnInit(): void {
+    this.fetchSeller();  
   }
 
-  ngOnInit(): void {
-    this.fetchSeller();
-      
+  onFileSelected(event: Event, inputFile:HTMLInputElement) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
+  addSellerWithImg() {
+    if (!this.selectedFile) {
+      alert('Please select an image file');
+      return;
+    }
+
+    this.sellerService.addSellerWithImage(
+      this.newSeller.name,
+      this.newSeller.email,
+      this.newSeller.grossSale,
+      this.newSeller.earning,
+      this.selectedFile
+    ).subscribe({
+      next: res => {
+   
+        alert('Seller added successfully!');
+        this.fetchSeller();
+        this.clearForm();
+      },
+      error: err => {
+        console.error(err);
+        alert('Error adding seller');
+      }
+    });
   }
 
   fetchSeller(){
@@ -70,47 +102,25 @@ export class SellersComponent implements OnInit{
     });
   }
 
-  addSeller(): void {
-    if (this.newSeller.name && this.newSeller.email && this.newSeller.earning) {
-      this.sellerService.addSeller(this.newSeller).subscribe({
-        next: (resp:any) => {
-          alert(resp.message);
-          console.log("New seller added")
-        },
-        error: (er) => {
-          console.log("Error while adding seller", er);
-        }
-      });
-    }
-    else {
-      alert('Please fill in all required fields.');
-   
-    }
-  }
+  
 
   editSeller(index: number) {
-    const seller = this.filteredSellers[index];
-    const realIndex = this.sellers.indexOf(seller);
-    this.newSeller = { ...seller };
-    this.editingIndex = realIndex;
+  
   }
 
   deleteSeller(index: number) {
-    const seller = this.filteredSellers[index];
-    const realIndex = this.sellers.indexOf(seller);
-    if (confirm('Are you sure you want to delete this seller?')) {
-      this.sellers.splice(realIndex, 1);
-    }
+  
+    
   }
 
-  handleFileInput(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.newSeller.icon = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+  clearForm():void{
+    this.newSeller.name= '';
+    this.newSeller.earning = 0;
+    this.newSeller.email = '';
+    this.newSeller.grossSale = 0;
+    this.newSeller.imagePath = '';
+   this.selectedFile = null;
+   }
+
+
 }

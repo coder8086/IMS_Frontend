@@ -22,8 +22,11 @@ export class ReviewComponent implements OnInit {
     id: 0,
     reviewerName: '',
     comment: '',
-    rating: 0
+    rating: 0,
+    imagePath:''
   };
+
+  selectedFile: File | null = null;
 
   constructor(private reviewService: ReviewService) {}
 
@@ -31,8 +34,40 @@ export class ReviewComponent implements OnInit {
     this.loadReviews();
   }
 
+  onFileSelected(event: Event, inputFile:HTMLInputElement) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.selectedFile = target.files[0];
+    }
+  }
+
   setRating(rating: number) {
     this.newReview.rating = rating;
+  }
+
+  addSellerWithImg() {
+    if (!this.selectedFile) {
+      alert('Please select an image file');
+      return;
+    }
+
+    this.reviewService.addReviewWithImage(
+      this.newReview.reviewerName,
+      this.newReview.comment,
+      this.newReview.rating,
+      this.selectedFile
+    ).subscribe({
+      next: res => {
+   
+        alert('Review added successfully!');
+        this.loadReviews();
+        this.resetForm();
+      },
+      error: err => {
+        console.error(err);
+        alert('Error adding seller');
+      }
+    });
   }
 
   loadReviews(){
@@ -69,7 +104,8 @@ export class ReviewComponent implements OnInit {
       id: 0,
       reviewerName: '',
       comment: '',
-      rating: 0
+      rating: 0,
+      imagePath:''
     };
   }
 }

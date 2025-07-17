@@ -21,6 +21,26 @@ export class ReviewService {
     });
   }
 
+   addReviewWithImage(
+    reviewerName: string,
+    comment: string,
+    rating: number,
+    imageFile: File
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('reviewerName', reviewerName);
+    if (comment) formData.append('comment', comment);
+    if (rating !== null && rating !== undefined) formData.append('rating', rating.toString());
+    formData.append('image', imageFile);
+
+    const token = localStorage.getItem('token'); // or sessionStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post(`${this.baseUrl}/addReviewImg`, formData, { headers });
+  }
+
   addReview(review: Review): Observable<Review> {
     return this.http.post<Review>(`${this.baseUrl}/addReview`, review, { 
       headers: this.getAuthHeaders()

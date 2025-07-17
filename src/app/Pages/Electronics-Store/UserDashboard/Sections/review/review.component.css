@@ -115,6 +115,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+  /* Seller image */
+.review-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
 .review-header {
   display: flex;
   align-items: center;

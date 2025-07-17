@@ -3,4 +3,5 @@ export class Review {
     reviewerName!:string;
     comment!:string;
     rating!:number;
+    imagePath!:string;
 }
